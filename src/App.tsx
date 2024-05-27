@@ -16,18 +16,20 @@ function App() {
     if (!file) {
       return;
     }
-    console.log(typeof file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      console.log(reader.result);
       const str = reader.result as string;
-      setEncoded(str.split("base64,")[1]);
+      setEncoded(str);
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
       setEncoded(null);
     };
+  };
+
+  const selectAll = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    e.target.select();
   };
 
   return (
@@ -53,7 +55,16 @@ function App() {
       {file && <button onClick={encode}>Encode to Base64</button>}
       <br />
       <br />
-      {encoded && <textarea value={encoded} readOnly></textarea>}
+      {encoded && (
+        <textarea
+          className="card"
+          onFocus={selectAll}
+          value={encoded}
+          readOnly
+        ></textarea>
+      )}
+      <br />
+      <img src="" alt="" />
     </>
   );
 }
